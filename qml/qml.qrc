@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/qml">
         <file>main.qml</file>
-		<file>QtAcademyProjForm.qml</file>
+		<file>QtAcademyProjectForm.qml</file>
     </qresource>
 </RCC>

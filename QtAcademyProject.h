@@ -10,8 +10,8 @@
 // See the Sample code usage restrictions document for further information.
 //
 
-#ifndef QTACADEMYPROJ_H
-#define QTACADEMYPROJ_H
+#ifndef QTACADEMYPROJECT_H
+#define QTACADEMYPROJECT_H
 
 namespace Esri::ArcGISRuntime {
 class Basemap;
@@ -78,4 +78,4 @@ private:
   std::unique_ptr<QObject> m_tempObject;
 };
 
-#endif // QTACADEMYPROJ_H
+#endif // QTACADEMYPROJECT_H

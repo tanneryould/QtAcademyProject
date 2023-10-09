@@ -18,7 +18,7 @@ ApplicationWindow {
     width: 800
     height: 600
 
-    QtAcademyProjForm {
+    QtAcademyProjectForm {
         anchors.fill: parent
     }
 }
