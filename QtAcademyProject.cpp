@@ -93,7 +93,7 @@ void QtAcademyProject::loadOfflineBasemaps()
   if (QFile::exists(vtpkPath+"/vectorTiles.vtpk"))
   {
     // Create a VectorTileCache object from the offline data
-    m_vectorTileCache = new VectorTileCache(vtpkPath+"/vectorTiles.vtpk", m_tempObject.get());
+    m_vectorTileCache = new VectorTileCache(vtpkPath + "/vectorTiles.vtpk", m_tempObject.get());
 
     // Check to see if any additional item resources exist and use them in the constructor if so
     if (QFile::exists(vtpkPath+"/itemResources"))
@@ -129,7 +129,7 @@ void QtAcademyProject::exportVectorTiles(ArcGISVectorTiledLayer* vectorTileLayer
   // Create default parameters for the layer service
   // Normalize the central meridian in case the download area crosses the meridian
   m_exportVectorTilesTask->createDefaultExportVectorTilesParametersAsync(GeometryEngine::normalizeCentralMeridian(m_mapView->visibleArea()), m_mapView->mapScale()*0.1)
-      .then(this, [=](ExportVectorTilesParameters defaultParams)
+      .then(this, [this](ExportVectorTilesParameters defaultParams)
   {
     QDir path(vtpkPath);
 
@@ -198,7 +198,7 @@ void QtAcademyProject::setMapView(MapQuickView* mapView)
   m_lineBuilder = new PolylineBuilder(SpatialReference::wgs84(), this);
 
   // Whenever the user's location changes, update the line path if necessary and recenter the map
-  connect(m_mapView->locationDisplay(), &LocationDisplay::locationChanged, this, [=](const Location& l)
+  connect(m_mapView->locationDisplay(), &LocationDisplay::locationChanged, this, [this](const Location& l)
   {
     if (!m_isTracking)
       return;
