@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/Resources">
         <file>AppIcon.png</file>
+        <file>calcite-icons/download-32.svg</file>
+        <file>calcite-icons/gps-off-32.svg</file>
+        <file>calcite-icons/gps-on-32-f.svg</file>
+        <file>calcite-icons/gps-on-32.svg</file>
+        <file>calcite-icons/offline-32.svg</file>
+        <file>calcite-icons/online-32.svg</file>
     </qresource>
 </RCC>
