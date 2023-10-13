@@ -28,6 +28,7 @@ class PolylineBuilder;
 } // namespace Esri::ArcGISRuntime
 
 #include <QObject>
+#include <QProperty>
 
 Q_MOC_INCLUDE("MapQuickView.h")
 
@@ -36,8 +37,8 @@ class QtAcademyProject : public QObject
   Q_OBJECT
 
   Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
-  Q_PROPERTY(int downloadProgress READ downloadProgress NOTIFY downloadProgressChanged)
-  Q_PROPERTY(bool isTracking READ isTracking WRITE setIsTracking NOTIFY isTrackingChanged)
+  Q_PROPERTY(int downloadProgress MEMBER m_downloadProgress NOTIFY downloadProgressChanged)
+  Q_PROPERTY(bool isTracking MEMBER m_isTracking WRITE setIsTracking NOTIFY isTrackingChanged)
 
 public:
   explicit QtAcademyProject(QObject* parent = nullptr);
@@ -56,9 +57,7 @@ private:
   void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);
   void loadOfflineBasemaps();
   void exportVectorTiles(Esri::ArcGISRuntime::ArcGISVectorTiledLayer* vectorTileLayer);
-  int downloadProgress();
-  bool isTracking() const;
-  void setIsTracking(bool value);
+  void setIsTracking(bool isTracking);
 
   Esri::ArcGISRuntime::Map* m_map = nullptr;
   Esri::ArcGISRuntime::MapQuickView* m_mapView = nullptr;
@@ -73,9 +72,9 @@ private:
   Esri::ArcGISRuntime::ItemResourceCache* m_itemResourceCache = nullptr;
   Esri::ArcGISRuntime::ArcGISVectorTiledLayer* m_offlineLayer = nullptr;
   Esri::ArcGISRuntime::PolylineBuilder* m_lineBuilder = nullptr;
+  std::unique_ptr<QObject> m_tempParent;
   int m_downloadProgress = 0;
   bool m_isTracking = false;
-  std::unique_ptr<QObject> m_tempParent;
 };
 
 #endif // QTACADEMYPROJECT_H
