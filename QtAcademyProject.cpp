@@ -63,9 +63,7 @@ QtAcademyProject::QtAcademyProject(QObject* parent /* = nullptr */):
   m_tempObject.reset(new QObject(this));
 }
 
-QtAcademyProject::~QtAcademyProject()
-{
-}
+QtAcademyProject::~QtAcademyProject() = default;
 
 void QtAcademyProject::toggleOffline(bool offline)
 {
@@ -83,7 +81,7 @@ void QtAcademyProject::toggleOffline(bool offline)
     m_map->setBasemap(m_basemap);
 
     // Delete any offline objects by reseting the parent
-    m_tempObject.reset(new QObject(this));
+    m_tempObject = std::make_unique<QObject>();
   }
 }
 
@@ -129,7 +127,7 @@ void QtAcademyProject::exportVectorTiles(ArcGISVectorTiledLayer* vectorTileLayer
   // Create default parameters for the layer service
   // Normalize the central meridian in case the download area crosses the meridian
   m_exportVectorTilesTask->createDefaultExportVectorTilesParametersAsync(GeometryEngine::normalizeCentralMeridian(m_mapView->visibleArea()), m_mapView->mapScale()*0.1)
-      .then(this, [this](ExportVectorTilesParameters defaultParams)
+      .then(this, [this](const ExportVectorTilesParameters& defaultParams)
   {
     QDir path(vtpkPath);
 
