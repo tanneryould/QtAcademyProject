@@ -15,8 +15,6 @@ import QtQuick.Controls
 import Esri.QtAcademyProject
 
 Item {
-    property bool isOffline: false
-
     // Create MapQuickView here, and create its Map etc. in C++ code
     MapView {
         id: view
@@ -51,14 +49,15 @@ Item {
         spacing: 10
 
         // Toggle between tracking the user's location with the line graphic
-        Image {
-            id: locationImg
-            source: model.isTracking ? "qrc:/Resources/calcite-icons/gps-on-32-f.svg" : "qrc:/Resources/calcite-icons/gps-off-32.svg"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    model.isTracking = !model.isTracking;
-                }
+        Button {
+            id: locationBtn
+            anchors.horizontalCenter: parent.horizontalCenter
+            icon.source: checked ? "qrc:/Resources/calcite-icons/gps-on-32-f.svg" : "qrc:/Resources/calcite-icons/gps-off-32.svg"
+            text: checked ? "Tracking" : "Not Tracking"
+            display: AbstractButton.TextUnderIcon
+            checkable: true
+            onCheckedChanged: {
+                model.isTracking = checked;
             }
         }
 
@@ -68,20 +67,19 @@ Item {
             color: "black"
         }
 
-        // Toggle offline mode
         Image {
-            id: switchImg
-            source: "qrc:/Resources/calcite-icons/online-32.svg"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    isOffline = !isOffline;
-                    model.toggleOffline(isOffline);
-                    if (isOffline)
-                        switchImg.source = "qrc:/Resources/calcite-icons/offline-32.svg"
-                    else
-                        switchImg.source = "qrc:/Resources/calcite-icons/online-32.svg"
-                }
+            id: onlineImg
+            anchors.horizontalCenter: parent.horizontalCenter
+            source: onlineSwitch.checked ? "qrc:/Resources/calcite-icons/online-32.svg" : "qrc:/Resources/calcite-icons/offline-32.svg"
+        }
+
+        Switch {
+            id: onlineSwitch
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: checked ? "Online" : "Offline"
+            checked: true
+            onCheckedChanged: {
+                model.toggleOffline(!checked);
             }
         }
 
@@ -89,19 +87,19 @@ Item {
             height: 1
             width: parent.width
             color: "black"
-            visible: !isOffline
+            visible: onlineSwitch.checked
         }
 
         // Download offline map area button
-        Image {
-            id: offlineImage
-            source: "qrc:/Resources/calcite-icons/download-32.svg"
-            visible: !isOffline
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    confirmationRect.visible = true
-                }
+        Button {
+            id: downloadBtn
+            anchors.horizontalCenter: parent.horizontalCenter
+            icon.source: "qrc:/Resources/calcite-icons/download-32.svg"
+            text: "Download area"
+            display: AbstractButton.TextUnderIcon
+            visible: onlineSwitch.checked
+            onClicked: {
+                confirmationRect.visible = true
             }
         }
     }
